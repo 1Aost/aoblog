@@ -1,0 +1,57 @@
+.article-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #fff;
+}
+.article-content .article-content-left {
+  max-height: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+  position: fixed;
+  padding: 10px;
+  width: 20%;
+  border-right: 1px solid #eee;
+  font-size: 20px;
+}
+.article-content .article-content-left .markNav-title {
+  font-weight: 600;
+  padding-left: 15px;
+}
+.article-content .article-content-right {
+  position: absolute;
+  right: 0;
+  width: 80%;
+  background-color: #fff;
+  padding: 30px;
+}
+.article-content .some {
+  position: fixed;
+  right: 100px;
+  font-size: 20px;
+  display: flex;
+}
+.article-content .some .like {
+  margin-right: 10px;
+}
+.article-content .some:hover {
+  cursor: pointer;
+}
+.article-content .some .card-mess .card-message .c-content {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+.article-content .some .card-mess .card-message .c-content .cc-1 {
+  display: flex;
+}
+.article-content .some .card-mess .card-message .c-content .cc-1 .cc-title {
+  color: #42b983;
+}
+.article-content .some .card-mess .card-message .c-content .cc-1 .cc-time {
+  padding-left: 20px;
+  color: #666;
+}
+.article-content .some .card-mess .card-message .c-content .cc-2 {
+  padding-top: 25px;
+}

@@ -1,0 +1,92 @@
+@bg-color: #42b983;
+.header {
+    // position: fixed;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px 0;
+    ul {
+        padding: 10px;
+        li {
+            float: left;
+            margin-right: 50px;
+            a {
+                color: #333;
+                &:hover {
+                    cursor: pointer;
+                    color: @bg-color;
+                }
+            }
+        }
+    }
+    .search {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 10px;
+        margin-right: 200px;
+        input {
+            padding: 0 30px 0px 10px;
+            height: 25px;
+            font-size: 14px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background: #eee;
+            margin: 0 auto;
+            outline: none;
+            font-family: st;
+            &::placeholder {
+                font-family: st;
+            }
+        }
+        .sIcon {
+            margin: 1px 0 0 -25px;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+    .mess {
+        .avatar {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            position: relative;
+            img {
+                border-radius: 50%;
+                width: 100%;
+                height: 100%;
+                -o-object-fit: cover;
+                object-fit: cover;
+            }
+        }
+        &>button {
+            border: 1.5px solid #ccc;
+            padding: 7px;
+            border-radius: 17px;
+            background-color: transparent;
+            margin-left: 10px;
+            a {
+                color: #333;
+            }
+            &:hover {
+                box-shadow: 0 0 20px 0 #ccc;
+            }
+        }
+        .unlogin {
+            border: none;
+            background-color: @bg-color;
+            span {
+                color: #fff;
+            }
+            &:hover {
+                cursor: pointer;
+                box-shadow: none;
+            }
+        }
+    }
+}
+.loading {
+    position: absolute;
+    left: 40%;
+}

@@ -1,0 +1,35 @@
+.list .card {
+  display: flex;
+  justify-content: space-between;
+  padding: 50px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  color: #333;
+  transition: 0.3s;
+}
+.list .card .card-left {
+  width: 80%;
+}
+.list .card .card-left .title {
+  padding-bottom: 5px;
+}
+.list .card .card-left .card-content {
+  padding: 1vw 0;
+  color: #555;
+  letter-spacing: 0.01rem;
+  line-height: 1.7;
+  font-size: 0.9rem;
+}
+.list .card .card-left .bottom {
+  color: #ccc;
+}
+.list .card .card-left .bottom > span {
+  margin-right: 20px;
+}
+.list .card .card-right {
+  width: 20%;
+}
+.list .card:hover {
+  box-shadow: 0 5px 8px 0 rgba(146, 146, 146, 0.3);
+  cursor: pointer;
+}

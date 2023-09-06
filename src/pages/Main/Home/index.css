@@ -1,0 +1,64 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-top: 10px;
+}
+.container .container-left {
+  width: 70%;
+  margin-right: 10px;
+}
+.container .container-left .none {
+  padding: 100px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container .container-left .none .img {
+  width: 300px;
+  height: 300px;
+}
+.container .container-left .none .img img {
+  width: 100%;
+}
+.container .container-left .none .content {
+  font-size: 16px;
+  font-weight: 300;
+  color: #8a919f;
+}
+.container .container-left .card {
+  display: flex;
+  justify-content: space-between;
+  padding: 50px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  color: #333;
+  transition: 0.3s;
+}
+.container .container-left .card .card-left {
+  width: 80%;
+}
+.container .container-left .card .card-left .title {
+  padding-bottom: 5px;
+}
+.container .container-left .card .card-left .card-content {
+  padding: 1vw 0;
+  color: #555;
+  letter-spacing: 0.01rem;
+  line-height: 1.7;
+  font-size: 0.9rem;
+}
+.container .container-left .card .card-left .bottom {
+  color: #ccc;
+}
+.container .container-left .card .card-left .bottom > span {
+  margin-right: 20px;
+}
+.container .container-left .card .card-right {
+  width: 20%;
+}
+.container .container-left .card:hover {
+  box-shadow: 0 5px 8px 0 rgba(146, 146, 146, 0.3);
+  cursor: pointer;
+}

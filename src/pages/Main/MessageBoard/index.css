@@ -1,0 +1,74 @@
+.board {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-top: 10px;
+}
+.board .board-left {
+  width: 70%;
+  margin-right: 10px;
+}
+.board .board-left .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 50px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  color: #333;
+  transition: 0.3s;
+}
+.board .board-left .card .card-top {
+  padding-bottom: 10px;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+.board .board-left .card .card-content {
+  padding-top: 10px;
+}
+.board .board-left .card:hover {
+  box-shadow: 0 5px 8px 0 rgba(146, 146, 146, 0.3);
+  cursor: pointer;
+}
+.board .board-left .card-mess {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 50px;
+  margin-bottom: 15px;
+  background-color: #fff;
+  color: #333;
+  transition: 0.3s;
+}
+.board .board-left .card-mess .card-top {
+  padding-bottom: 10px;
+  width: 100%;
+}
+.board .board-left .card-mess .card-message {
+  display: flex;
+  justify-content: flex-start;
+  padding: 20px 0;
+  border-top: 1px solid #ccc;
+}
+.board .board-left .card-mess .card-message .c-content {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+.board .board-left .card-mess .card-message .c-content .cc-1 {
+  display: flex;
+}
+.board .board-left .card-mess .card-message .c-content .cc-1 .cc-title {
+  color: #42b983;
+}
+.board .board-left .card-mess .card-message .c-content .cc-1 .cc-time {
+  padding-left: 20px;
+  color: #666;
+}
+.board .board-left .card-mess .card-message .c-content .cc-2 {
+  padding-top: 25px;
+}
+.board .board-left .card-mess:hover {
+  box-shadow: 0 5px 8px 0 rgba(146, 146, 146, 0.3);
+  cursor: pointer;
+}

@@ -1,0 +1,143 @@
+.font-style {
+  font-family: st;
+}
+main .register {
+  width: 1000px;
+  height: 450px;
+  margin: 100px auto;
+  position: relative;
+  box-shadow: 0px 0.05rem 0.3rem #999;
+}
+main .register .register-left {
+  float: left;
+  height: 100%;
+  width: 500px;
+  background: url(../../images/bg-right.jpg) no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+}
+main .register .register-left .reg-ltcmt {
+  opacity: 0.4;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+main .register .register-left h1 {
+  position: absolute;
+  top: 65px;
+  left: 50px;
+  z-index: 1;
+  font-family: st;
+  letter-spacing: 0.01rem;
+  text-align: left;
+  color: #fff;
+}
+main .register .register-left p {
+  position: absolute;
+  top: 125px;
+  left: 50px;
+  z-index: 1;
+  font-size: 1rem;
+  line-height: 2.07;
+  letter-spacing: 0.01rem;
+  text-align: left;
+  color: #fff;
+}
+main .register .register-left a {
+  position: absolute;
+  top: 280px;
+  left: 50px;
+  z-index: 1;
+  font-size: 1.2rem;
+  line-height: 41px;
+  width: 112px;
+  height: 41px;
+  text-align: center;
+  border: 1px solid #fff;
+  color: #fff;
+}
+main .register .register-right {
+  float: left;
+  height: 100%;
+  width: 500px;
+  background-color: #ffffff;
+  padding: 42px 20px 42px 59px;
+}
+main .register .register-right .text_style_1 {
+  line-height: 1.07;
+  letter-spacing: 1px;
+  text-align: left;
+  color: #42494e;
+}
+main .register .register-right .Rectangle-2 {
+  width: 1.54rem;
+  height: 1px;
+  background-color: #6B7A88;
+  margin: 0.7rem 0;
+  display: block;
+}
+main .register .register-right .text_style_2 {
+  opacity: 0.7;
+  font-size: 1.04rem;
+  letter-spacing: 1px;
+  text-align: left;
+  color: #42494e;
+  margin-bottom: 0.8rem;
+}
+main .register .register-right .input {
+  width: 96%;
+  font-size: 1rem;
+  border: none;
+  color: #A0A4A6;
+  box-shadow: none;
+  border-bottom: solid 1px #d4d4d4;
+  border-radius: 0;
+  padding: 17px 50px 17px 30px;
+  margin-bottom: 22px;
+  outline: none;
+}
+main .register .register-right .input::placeholder {
+  font-family: st;
+  color: #A0A4A6;
+}
+main .register .register-right .info {
+  color: #954848;
+  width: 96%;
+  background: url(../../images/error.png) no-repeat right 0px/5% 100%;
+  font-size: 0.12rem;
+  text-align: left;
+}
+main .register .register-right .btn {
+  display: block;
+  width: 333px;
+  height: 50px;
+  background: url(../../images/bt_more_big_scenic.png) no-repeat;
+  background-size: 100% 100%;
+  background-position: right top;
+  text-align: center;
+  line-height: 50px;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  color: #42494e;
+  margin-top: 45px;
+  outline: none;
+  border: none;
+}
+main .register .register-right .btn:hover {
+  cursor: pointer;
+}
+main .register .register-right .user {
+  display: block;
+  position: absolute;
+  top: 148px;
+  left: 552px;
+}
+main .register .register-right .password {
+  display: block;
+  position: absolute;
+  top: 222px;
+  left: 552px;
+}

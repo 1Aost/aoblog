@@ -1,0 +1,32 @@
+.about {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-top: 10px;
+}
+.about .about-left {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin-right: 10px;
+  padding: 50px;
+  letter-spacing: 2px;
+  line-height: 30px;
+}
+.about .about-left .content {
+  margin-bottom: 30px;
+}
+.about .about-left .icons a {
+  margin-right: 20px;
+  color: #000;
+  font-size: 25px;
+}
+.about .about-left .icons a:hover {
+  cursor: pointer;
+}
+.about .about-left .ye {
+  margin-top: 50px;
+}
+.about .about-left .ye img {
+  width: 100%;
+}

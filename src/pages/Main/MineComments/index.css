@@ -1,0 +1,25 @@
+.list li {
+  position: relative;
+  padding: 10px;
+  line-height: 46px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.88);
+  margin-bottom: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+}
+.list li .status {
+  position: absolute;
+  right: 30px;
+}
+.list li .time {
+  color: #8a9aa9;
+}
+.list li .reply {
+  color: #1677ff;
+}
+.list li .delete {
+  position: absolute;
+  right: 0;
+  top: 15px;
+}
