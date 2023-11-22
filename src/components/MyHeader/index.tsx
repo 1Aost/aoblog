@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Dropdown, message, Radio } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import {userMess,change} from "../../store/reducers/userSlice"
@@ -7,14 +8,32 @@ import type { MenuProps } from 'antd';
 import apiFun from '../../api';
 import "../../assets/font_style_cn.css"
 import "./index.css"
-import { useDispatch, useSelector } from 'react-redux';
+interface MessageType {
+  code: string
+  msg: string
+  data: null | Array<UserMessType>
+}
+interface UserType {
+  user: {
+      id: number
+      username: string
+      password: string
+      avatar: string
+  }
+}
+interface UserMessType {
+  avatar: string
+  id: number
+  password: string
+  username: string
+}
 const MyHeader: React.FC = () => {
-  const [user1,setUser1]=useState<any>({});
+  // const [user1,setUser1]=useState<any>({});
   const [size, setSize] = useState<SizeType>('large');
   const navigate=useNavigate();
   const dispatch=useDispatch();
   const location=useLocation();
-  const {user}=useSelector((store:any)=>store.user);
+  const {user}=useSelector((store: {user: UserType})=>store.user);
   // 头部导航栏
   const list=[
     {id:0,name:"首页",url:"/home"},
@@ -46,22 +65,24 @@ const MyHeader: React.FC = () => {
       ),
     },
   ];
-  function fetchUser() {
-    let token=localStorage.getItem("token");
-    apiFun.getUserByToken({token:token}).then((res:any)=>{
+  async function fetchUser(): Promise<void> {
+    try {
+      let token: string | null=localStorage.getItem("token");
+      const res: MessageType=await apiFun.getUserByToken({token:token});
       if(res.code==="0000") {
-        setUser1(res.data[0]);
-        dispatch(userMess(res.data[0]));
+        // setUser1((res.data as UserMessType[])[0]);
+        dispatch(userMess((res.data as Array<UserMessType>)[0]));
       }
-    })
+    }catch(err) {
+      message.error("出错了，请联系管理员");
+    }
   }
   useEffect(() => {
     fetchUser();
-  // }, [location.search,localStorage.getItem("token")])
   }, [location.search,localStorage.getItem("token")])
   // 退出登录
-  function handleLogout() {
-    const url=location.pathname+location.search;
+  function handleLogout(): void {
+    const url: string=location.pathname+location.search;
     message.success("成功退出");
     localStorage.removeItem("token");
     dispatch(userMess({}));

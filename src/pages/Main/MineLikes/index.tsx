@@ -1,67 +1,114 @@
 import React, { useEffect, useState } from 'react'
-import "./index.css"
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
 import { message, Pagination } from 'antd';
-import apiFun from '../../../api';
 import {
     BookOutlined,
     LikeOutlined,
     MessageOutlined,
     EyeOutlined
 } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom';
 import { changeId } from '../../../store/reducers/articleSlice';
-const PageSize = 3; // 每页展示的数据条数
+import apiFun from '../../../api';
+import "./index.css"
+interface MessageType {
+    code: string
+    msg: string
+    data: null | DataType | Array<LikeType> | Array<ArticleType>
+}
+interface DataType {
+    username: string
+    password: string
+    iat: number
+    exp: number
+}
+interface ArticleType {
+    article_img: string
+    article_introduction: string
+    article_likes: number
+    article_reviews: number
+    article_time: string
+    article_title: string
+    article_type: string
+    article_url: string
+    article_views: number
+    comments_length: number
+    id: number
+}
+interface LikeType {
+    article_id1: number
+    article_name: string
+    likes_id: number
+    user_id2: number
+}
+interface UserType {
+    user: {
+        id: number
+        username: string
+        password: string
+        avatar: string
+    }
+}
+const PageSize: number = 3; // 每页展示的数据条数
 const MineLikes:React.FC=()=>{
-    // const [likesList,setLikesList]=useState([]);
-    const [articleList,setArticleList]=useState([]);
-    const {user}=useSelector((store:any)=>store.user);
-    const [currentPage, setCurrentPage] = useState(1); // 当前页码
+    const [articleList,setArticleList]=useState<Array<ArticleType>>([]);
+    const {user}=useSelector((store: {user: UserType})=>store.user);
+    const [currentPage, setCurrentPage] = useState<number>(1); // 当前页码
     const dispatch=useDispatch();
     const navigate=useNavigate();
     // 根据当前页码切片获取当前页要展示的数据
-    const getCurrentPageData = () => {
-        const startIndex = (currentPage - 1) * PageSize;
-        const endIndex = startIndex + PageSize;
+    const getCurrentPageData: () => Array<ArticleType> = (): Array<ArticleType> => {
+        const startIndex: number = (currentPage - 1) * PageSize;
+        const endIndex: number = startIndex + PageSize;
         return articleList.slice(startIndex, endIndex);
     };
     useEffect(()=>{
-        const token=localStorage.getItem("token");
-        apiFun.LegalToken({token:token}).then((res:any)=>{
-            if(res.code==='1111') {
-                message.warning(res.msg);
-                // localStorage.removeItem("token");
-                navigate("/login");
-            }else if(res.code==='2222') {
-                message.warning(res.msg);
-                navigate("/home");
+        const token: string | null=localStorage.getItem("token");
+        (async function() {
+            try {
+                const res: MessageType=await apiFun.LegalToken({token:token});
+                // 身份信息过期
+                if(res.code==='1111') {
+                    message.warning(res.msg);
+                    navigate("/login");
+                    // localStorage.removeItem("token");
+                }else if(res.code==='2222') {
+                    // 尚未登录
+                    message.warning(res.msg);
+                    navigate("/home");
+                }
+            }catch(err) {
+                message.error("出错了，请联系管理员");
             }
-        })
+        })();
     },[navigate])
-    function fetchLikes() {
-        apiFun.selectLikesByUserId({id:user.id}).then((res:any)=>{
+    async function fetchLikes(): Promise<void> {
+        try {
+            const res: MessageType=await apiFun.selectLikesByUserId({id:user.id})
+            console.log(res);
             if(res.code==='0000') {
                 // setLikesList(res.data);
-                fetchArticle(res.data);
+                fetchArticle(res.data as LikeType[]);
             }else {
                 message.error(res.msg);
             }
-        })
+        }catch(err) {
+            message.error("出错了，请联系管理员");
+        }
     }
-    function fetchArticle(likesList:any) {
-        apiFun.getBlogList().then((res:any)=>{
-            const filteredData = res.data.filter((item: any) => {
-                return likesList.some((likeItem: any) => likeItem.article_id1 === item.id);
-            });
-            setArticleList(filteredData);
-        })
+    async function fetchArticle(likesList: LikeType[]) {
+        const res: MessageType=await apiFun.getBlogList();
+        const filteredData: ArticleType[] = (res.data as Array<ArticleType>).filter((item: ArticleType) => {
+            return likesList.some((likeItem: LikeType) => likeItem.article_id1 === item.id);
+        });
+        setArticleList(filteredData);
     }
     useEffect(()=>{
         if(user.id) {
             fetchLikes();
         }
     },[user])
-    function handleClick(id:Number) {
+    function handleClick(id:number): () => void {
         return ()=>{
             dispatch(changeId(id));
             navigate(`/content/${id}`);
@@ -71,7 +118,7 @@ const MineLikes:React.FC=()=>{
         <div>
             <ul className='list'>
                 {
-                    getCurrentPageData().map((article:any)=>{
+                    getCurrentPageData().map((article: ArticleType)=>{
                         return (
                             <div key={article.id} className='card' onClick={handleClick(article.id)}>
                                 <div className="card-left">

@@ -1,18 +1,34 @@
 import React, { useEffect, useState } from 'react'
-import MySlider from '../../../components/MySlider';
-import "./index.css"
-import { Button, Tooltip, Menu, message } from 'antd';
-import { EditOutlined, HeartOutlined, MailOutlined, MessageOutlined } from '@ant-design/icons';
 import { Outlet, useNavigate } from 'react-router-dom';
-import type { MenuProps } from 'antd';
 import { useSelector } from 'react-redux'
+import { Button, Tooltip, Menu, message, MenuProps } from 'antd';
+import { EditOutlined, HeartOutlined, MailOutlined, MessageOutlined } from '@ant-design/icons';
+import MySlider from '../../../components/MySlider';
 import apiFun from '../../../api';
+import "./index.css"
+interface MessageType {
+    code: string
+    msg: string
+    data: null | DataType
+}
+interface DataType {
+    username: string
+    password: string
+    iat: number
+    exp: number
+}
+interface UserType {
+    user: {
+        id: number
+        username: string
+        password: string
+        avatar: string
+    }
+}
 const Mine:React.FC=()=>{
-    // const [articlesList,setArticlesList]=useState([]);
-    const {user}=useSelector((store:any)=>store.user);
+    const {user}=useSelector((store: {user: UserType})=>store.user);
     const navigate=useNavigate();
-    const [current, setCurrent] = useState('review');
-    // const {articleList}=useSelector((store:any)=>store.article);
+    const [current, setCurrent] = useState<string>('review');
     const onClick: MenuProps['onClick'] = (e) => {
         setCurrent(e.key);
         navigate("/mine/"+e.key);
@@ -35,27 +51,32 @@ const Mine:React.FC=()=>{
             // children: articletype
         },
     ];
-    useEffect(() => {
-        /* apiFun.getBlogList().then((res:any)=>{
+    /* useEffect(() => {
+        apiFun.getBlogList().then((res:any)=>{
             setArticlesList(res.data);
-        }) */
-    }, [])
-    useEffect(()=>{
-        const token=localStorage.getItem("token");
-        apiFun.LegalToken({token:token}).then((res:any)=>{
-            // 身份信息过期
-            if(res.code==='1111') {
-                message.warning(res.msg);
-                navigate("/login");
-                // localStorage.removeItem("token");
-            }else if(res.code==='2222') {
-                // 尚未登录
-                message.warning(res.msg);
-                navigate("/home");
-            }
         })
+    }, []) */
+    useEffect(()=>{
+        const token: string | null=localStorage.getItem("token");
+        (async function() {
+            try {
+                const res: MessageType=await apiFun.LegalToken({token:token});
+                // 身份信息过期
+                if(res.code==='1111') {
+                    message.warning(res.msg);
+                    navigate("/login");
+                    // localStorage.removeItem("token");
+                }else if(res.code==='2222') {
+                    // 尚未登录
+                    message.warning(res.msg);
+                    navigate("/home");
+                }
+            }catch(err) {
+                message.error("出错了，请联系管理员");
+            }
+        })();
     },[navigate])
-    function handleChangeUser() {
+    function handleChangeUser(): void {
         navigate("/change")
     }
     return (

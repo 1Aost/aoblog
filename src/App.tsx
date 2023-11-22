@@ -6,13 +6,11 @@ import "./App.css"
 import apiFun from './api';
 import { useDispatch } from 'react-redux';
 import { all } from './store/reducers/articleSlice';
-// import {changeIsVaild} from "./store/reducers/userSlice"
-// import { message } from 'antd';
-// import { useRoutes } from 'react-router-dom';
+
 const App:React.FC=()=>{
   const dispatch=useDispatch();
   // 解决页面在刷新时，有时会出现articleList是空数组的情况
-  const [dataReady, setDataReady] = useState(false); // 新增数据准备状态
+  const [dataReady, setDataReady] = useState<boolean>(false); // 新增数据准备状态
   useEffect(()=>{
     /* // 判断当前token是否有效：
     const token=localStorage.getItem("token");

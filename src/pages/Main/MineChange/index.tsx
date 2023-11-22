@@ -1,36 +1,55 @@
 import React, { useEffect, useState } from 'react'
-import MySlider from '../../../components/MySlider';
-
-import { Button, Form, Input, Upload, message } from 'antd';
-import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
-import apiFun from '../../../api';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import "./index.css"
+import { Button, Form, Input, Upload, message } from 'antd';
+import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { userMess } from '../../../store/reducers/userSlice';
+import MySlider from '../../../components/MySlider';
+import apiFun from '../../../api';
+import "./index.css"
+interface MessageType {
+    code: string
+    msg: string
+    data: null | DataType
+}
+interface DataType {
+    username: string
+    password: string
+    iat: number
+    exp: number
+}
+interface UserType {
+    user: {
+        id: number
+        username: string
+        password: string
+        avatar: string
+    }
+}
 const MineChange:React.FC=()=>{
-    // const [articlesList,setArticlesList]=useState([]);
-    const {user}=useSelector((store:any)=>store.user);
+    const {user}=useSelector((store: {user: UserType})=>store.user);
     const navigate=useNavigate();
     const dispatch=useDispatch();
     useEffect(()=>{
-        const token=localStorage.getItem("token");
-        apiFun.LegalToken({token:token}).then((res:any)=>{
-            if(res.code==='1111') {
-                message.warning(res.msg);
-                // localStorage.removeItem("token");
-                navigate("/login");
-            }else if(res.code==='2222') {
-                message.warning(res.msg);
-                navigate("/home");
+        const token: string | null=localStorage.getItem("token");
+        (async function() {
+            try {
+                const res: MessageType=await apiFun.LegalToken({token:token});
+                // 身份信息过期
+                if(res.code==='1111') {
+                    message.warning(res.msg);
+                    navigate("/login");
+                    // localStorage.removeItem("token");
+                }else if(res.code==='2222') {
+                    // 尚未登录
+                    message.warning(res.msg);
+                    navigate("/home");
+                }
+            }catch(err) {
+                message.error("出错了，请联系管理员");
             }
-        })
+        })();
     },[navigate])
-    /* useEffect(() => {
-        apiFun.getBlogList().then((res:any)=>{
-            setArticlesList(res.data);
-        })
-    }, []) */
     const [form]=Form.useForm();
     /**
      *  上传图片
@@ -38,29 +57,32 @@ const MineChange:React.FC=()=>{
     // 图片地址
     const [imageUrl, setImageUrl] = useState<string>();
     // 加载
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
     // 上传前
-    const beforeUpload = (file: { type: string; size: number; }) => {
+    const beforeUpload: (file: {
+        type: string;
+        size: number;
+    }) => boolean = (file: { type: string; size: number; }):boolean => {
         // 图片格式
-        const isJpgOrPng = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp';
+        const isJpgOrPng: boolean = file.type === 'image/jpg' || file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp';
         if (!isJpgOrPng) {
-        message.error('You can only upload JPG/JPEG/PNG/WEBP file!');
+            message.error('You can only upload JPG/JPEG/PNG/WEBP file!');
         }
-        const isLt2M = file.size / 1024 / 1024 < 2;
+        const isLt2M: boolean = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+            message.error('Image must smaller than 2MB!');
         }
         return isJpgOrPng && isLt2M;
     };
     // 转为base64
-    const getBase64 = (img: Blob, callback: any) => {
+    const getBase64: (img: Blob, callback: any) => void = (img: Blob, callback: any): void => {
         const reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(img);
     };
     // 上传图片
-    const handleChange = (info: any) => {
-        console.log(info.file, 'info');
+    const handleChange: (info: any) => void = (info: any): void => {
+        // console.log(info.file, 'info');
         if (info.file.status === 'uploading') {
             setLoading(true);
             return;
@@ -76,24 +98,30 @@ const MineChange:React.FC=()=>{
     const customUpload = async ({ file, onSuccess, onError }) => {
         const formData = new FormData();
         formData.append('file', file);
-        apiFun.uploadAvatar(formData).then((res:any)=>{
-            setImageUrl("./avatar/"+res.url);
-        })
+        const res: {url: string}=await apiFun.uploadAvatar(formData);
+        setImageUrl("./avatar/"+res.url);
     };
-    const onFinish = (values: any) => {
-        console.log(values);
-        apiFun.changeUser({id:user.id,...values,avatar:imageUrl}).then((res)=>{
-            if(res.code==='0000') {
-                message.success(res.msg);
-                dispatch(userMess({id:user.id,...values,avatar:imageUrl}));
-                navigate("/mine");
-            }else {
-                message.error(res.msg);
+    const onFinish: (values: {
+        username: string;
+        password: string;
+    }) => void = (values: {username: string,password: string}): void => {
+        (async function() {
+            try {
+                const res: MessageType=await apiFun.changeUser({id:user.id,...values,avatar:imageUrl});
+                if(res.code==='0000') {
+                    message.success(res.msg);
+                    dispatch(userMess({id:user.id,...values,avatar:imageUrl}));
+                    navigate("/mine");
+                }else {
+                    message.error(res.msg);
+                }
+            }catch(err) {
+                message.error("出错了，请联系管理员");
             }
-        })
+        })()
     };
 
-    const onFinishFailed = (errorInfo: any) => {
+    const onFinishFailed = (errorInfo: object) => {
         console.log('Failed:', errorInfo);
     };
     useEffect(()=>{

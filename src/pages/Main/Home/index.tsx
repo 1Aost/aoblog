@@ -1,31 +1,46 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Pagination } from 'antd';
+import { useDispatch } from 'react-redux';
+import { message, Pagination } from 'antd';
 import {BookOutlined, LikeOutlined, MessageOutlined, EyeOutlined} from '@ant-design/icons';
 import {all, changeId} from "../../../store/reducers/articleSlice"
 import MySlider from '../../../components/MySlider';
 import apiFun from '../../../api';
 import "../../../assets/font_style_cn.css"
 import "./index.css"
-const PageSize = 5; // 每页展示的数据条数
+interface ArticleMessageType {
+    code: string
+    msg: string
+    data: Array<ArticleType> | null
+}
+interface ArticleType {
+    article_img: string
+    article_introduction: string
+    article_likes: number
+    article_reviews: number
+    article_time: string
+    article_title: string
+    article_type: string
+    article_url: string
+    article_views: number
+    comments_length: number
+    id: number
+}
+const PageSize: number = 5; // 每页展示的数据条数
 const MyContainer:React.FC=()=>{
     // 通过useDispatch分发时间
     const dispatch=useDispatch();
     const location = useLocation();
-    const [articlesList,setArticlesList]=useState<any>([]);
-    /* const [reviews,setReviews]=useState<any>([]);
-    let reviews: any[]=[]; */
+    const [articlesList,setArticlesList]=useState<Array<ArticleType>>([]);
     const navigate=useNavigate();
-    const [currentPage, setCurrentPage] = useState(1); // 当前页码
+    const [currentPage, setCurrentPage] = useState<number>(1); // 当前页码
     // 根据当前页码切片获取当前页要展示的数据
-    const getCurrentPageData = () => {
-        const startIndex = (currentPage - 1) * PageSize;
-        const endIndex = startIndex + PageSize;
+    const getCurrentPageData: () => Array<ArticleType> = ():Array<ArticleType> => {
+        const startIndex: number = (currentPage - 1) * PageSize;
+        const endIndex: number = startIndex + PageSize;
         return articlesList.slice(startIndex, endIndex);
     };
-    const {articleList}=useSelector((store:any)=>store.article);
-    function handleClick(id:Number) {
+    function handleClick(id:number): () => void {
         return ()=>{
             dispatch(changeId(id));
             navigate(`/content/${id}`);
@@ -33,20 +48,31 @@ const MyContainer:React.FC=()=>{
     }
     useEffect(()=>{
         async function fn1() {
-            const search=location.search;
-            if(search==="") {
-                apiFun.getBlogList().then((res:any)=>{
+            try {
+                const search: string=location.search;
+                if(search==="") {
+                    const res: ArticleMessageType=await apiFun.getBlogList();
                     if(res.code==='0000') {
-                        setArticlesList(res.data);
+                        setArticlesList(res.data as Array<ArticleType>);
                         dispatch(all(res.data));
+                    }else {
+                        message.error(res.msg);
                     }
-                })
-            }else {
-                let type=Number(search.split("?")[1].split("=")[1]);
-                await apiFun.getBlogByType({type:type}).then((res:any)=>{
-                    setArticlesList(res.data);
-                    // dispatch(all(articlesList));
-                })
+                }else {
+                    let type: number=Number(search.split("?")[1].split("=")[1]);
+                    try {
+                        const res: ArticleMessageType=await apiFun.getBlogByType({type:type});
+                        if(res.code==='0000') {
+                            setArticlesList(res.data as Array<ArticleType>);
+                        }else {
+                            message.error(res.msg);
+                        }
+                    }catch(err) {
+                        message.error("出错了，请联系管理员");
+                    }
+                }
+            }catch(err) {
+                message.error("出错了，请联系管理员");
             }
         }
         fn1();
@@ -62,7 +88,7 @@ const MyContainer:React.FC=()=>{
                         </div>
                         <div className='content'>这里什么都没有</div>
                     </div>:
-                    getCurrentPageData().map((article:any)=>{
+                    getCurrentPageData().map((article:ArticleType)=>{
                         return (
                             <div key={article.id} className='card' onClick={handleClick(article.id)}>
                                 <div className="card-left">
