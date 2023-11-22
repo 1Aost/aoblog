@@ -1,39 +1,47 @@
-import { message } from 'antd'
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { NavLink,useNavigate } from 'react-router-dom'
 import { SmileOutlined, KeyOutlined } from "@ant-design/icons"
+import { message } from 'antd'
 import apiFun from '../../api'
 import "../../assets/font_style_cn.css"
 import "./index.css"
-
+interface MyMessageType {
+    code: string // 返回的状态码
+    msg: string // 提示信息
+    data: string // 携带的token
+}
 const Register:React.FC=()=>{
-    const [username,setUsername]=useState("");
-    const [password,setPassword]=useState("");
-  const [info,setInfo]=useState("");
+    const [username,setUsername]=useState<string>("");
+    const [password,setPassword]=useState<string>("");
+    const [info,setInfo]=useState<string>("");
     const navigate=useNavigate();
-    function handleUsername(e:any) {
+    function handleUsername(e: ChangeEvent<HTMLInputElement>): void {
         setUsername(e.target.value)
     }
-    function handlePassword(e:any) {
+    function handlePassword(e: ChangeEvent<HTMLInputElement>): void {
         setPassword(e.target.value)
     }
-    function handleRegister() {
+    function handleRegister(): void {
         if(username.trim().length<2 || username.trim().length>5) {
             setInfo("用户名的长度不能小于2位大于5位");
         }else if(password.trim().length<7 || password.trim().length>17) {
             setInfo("密码的长度不能小于7位大于17位");
         }else {
-            apiFun.register({username:username.trim(),password:password.trim()}).then((res:any)=>{
-                console.log(res);
-                if(res.code==='0000') {
-                    message.success("注册成功，请登录");
-                    navigate("/login");
-                }else if(res.code==='1004') {
-                    message.warning(res.msg);
-                }else {
-                    message.error("请稍后重试")
+            (async function() {
+                try {
+                    const res:MyMessageType=apiFun.register({username:username.trim(),password:password.trim()});
+                    if(res.code==='0000') {
+                        message.success("注册成功，请登录");
+                        navigate("/login");
+                    }else if(res.code==='1004') {
+                        message.warning(res.msg);
+                    }else {
+                        message.error("请稍后重试")
+                    }
+                }catch(err) {
+                    message.error("出现错误，请稍后重试");
                 }
-            })
+            })();
         }
     }
     return (

@@ -4,13 +4,17 @@ import https from './request';
 interface MyObject {
 	[key: string]: any;
 }
+interface UserMessage {
+	username: string
+	password: string
+}
 let apiFun :MyObject={};
 /* 登录 */
-apiFun.login=function(params:any) {
+apiFun.login=function(params: UserMessage) {
 	return https.post("/api/token",params);
 }
 /* 注册 */
-apiFun.register=function(params:any) {
+apiFun.register=function(params: UserMessage) {
 	return https.post("/api/register",params);
 }
 
