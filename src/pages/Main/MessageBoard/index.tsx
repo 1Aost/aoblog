@@ -72,6 +72,7 @@ const MessageBoard:React.FC=()=>{
         const endIndex:number = startIndex + PageSize;
         return reviews.slice(startIndex, endIndex);
     };
+    const emailPattern=/^[1-9][0-9]{4,10}$/g;
     async function fn1(): Promise<void> {
         try {
             const res:MessageType=await apiFun.getReviews();
@@ -87,6 +88,10 @@ const MessageBoard:React.FC=()=>{
     const onFinish = (values: FinishType) => {
         if(values) {
             const reviews: UserType=values.user;
+            if(!emailPattern.test(reviews.review_email)) {
+                message.warning("输入的邮箱号格式不正确");
+                return;
+            }
             const token: string | null=localStorage.getItem("token") as string | null;
             (async function() {
                 try {

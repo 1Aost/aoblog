@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';//引入
-import MarkNav from 'markdown-navbar'
+import MarkNav from 'markdown-navbar'// markdown文章导航栏
 import remarkGfm from 'remark-gfm';// 划线、表、任务列表和直接url等的语法扩展
 import rehypeRaw from 'rehype-raw'// 解析标签，支持html语法
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter' // 代码高亮

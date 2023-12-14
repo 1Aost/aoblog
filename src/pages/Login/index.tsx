@@ -32,10 +32,8 @@ const Login:React.FC=()=>{
             message.success("成功登录，欢迎欢迎");
             dispatch(change(true));
             navigate("/home");
-          }else if(res.code==='1002') {
+          }else {
             message.warning(res.msg);
-          }else if(res.code==='1001') {
-            message.error("出现错误，请稍后重试");
           }
         }catch(err) {
           message.error("出错了，请联系管理员");

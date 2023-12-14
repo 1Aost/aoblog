@@ -29,7 +29,7 @@ const Register:React.FC=()=>{
         }else {
             (async function() {
                 try {
-                    const res:MyMessageType=apiFun.register({username:username.trim(),password:password.trim()});
+                    const res:MyMessageType=await apiFun.register({username:username.trim(),password:password.trim()});
                     if(res.code==='0000') {
                         message.success("注册成功，请登录");
                         navigate("/login");
