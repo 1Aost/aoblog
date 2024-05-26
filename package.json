@@ -62,14 +62,25 @@
   "devDependencies": {
     "@types/markdown-navbar": "^1.4.0",
     "@types/react-syntax-highlighter": "^15.5.7",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "prettier": "^3.2.5",
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "prettier": "^3.2.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx,js,jsx}": [
-      "eslint -c .eslintrc.js --fix"
+    "*.{ts,tsx}": [
+      "node --max_old_space_size=16864 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
     ]
-  }
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ]
 }
