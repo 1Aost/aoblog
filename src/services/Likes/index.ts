@@ -13,4 +13,3 @@ export async function deleteLikes(params: { article_id: number, user_id: number 
 export async function selectLikesByUserId(params: { id: number }) {
   return request.post("/api/likes/searchbyuserid", params);
 }
-//暴露出这个对
