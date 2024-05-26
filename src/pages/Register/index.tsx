@@ -4,7 +4,7 @@ import { SmileOutlined, KeyOutlined } from "@ant-design/icons"
 import { message } from 'antd'
 import "../../assets/font_style_cn.css"
 import "./index.css"
-import { register } from '../../services/Login'
+import { register } from '../../services/Users'
 
 const Register = () => {
 	const [username, setUsername] = useState<string>("");

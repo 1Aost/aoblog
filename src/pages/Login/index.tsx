@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { change } from "../../store/reducers/userSlice"
 import "../../assets/font_style_cn.css"
 import "./index.css"
-import { login } from '../../services/Login'
+import { login } from '../../services/Users'
 
 const Login = () => {
   const [username, setUsername] = useState<string>("");
