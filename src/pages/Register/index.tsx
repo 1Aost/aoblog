@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { SmileOutlined, KeyOutlined } from "@ant-design/icons"
-import { message } from 'antd'
-import "../../assets/font_style_cn.css"
-import "./index.css"
-import { register } from '../../services/Users'
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { SmileOutlined, KeyOutlined } from "@ant-design/icons";
+import { message } from 'antd';
+import "../../assets/font_style_cn.css";
+import "./index.css";
+import { register } from '../../services/Users';
 
 const Register = () => {
 	const [username, setUsername] = useState<string>("");
@@ -31,9 +31,10 @@ const Register = () => {
 				})
 				.catch(_err => {
 					message.error("出现错误，请稍后重试");
-				})
+				});
 		}
-	}
+	};
+
 	return (
 		<main>
 			<div className="register">

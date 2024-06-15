@@ -21,7 +21,6 @@ const Login = () => {
       setInfo("密码的长度不能小于7位大于17位");
     } else {
       login({ username, password }).then(res => {
-        console.log(res);
         if (res.code === '0000') {
           localStorage.setItem("token", res.data);
           message.success("成功登录，欢迎欢迎");

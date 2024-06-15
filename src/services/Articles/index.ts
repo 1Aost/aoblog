@@ -32,7 +32,7 @@ export async function getComments(params: { id: number }): Promise<any> {
 // 根据文章的id以及用户id提交文章评论
 export async function submitComments(params: {
   article_id: number,
-  token: string,
+  token: string | null,
   comments: string,
 }): Promise<any> {
   return request.post("/api/articles/newcomments", params);
