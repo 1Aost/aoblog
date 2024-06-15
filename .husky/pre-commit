@@ -1,6 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx --no-install lint-staged
-#echo "pre-commit";
-#npx lint-staged;
+npx lint-staged

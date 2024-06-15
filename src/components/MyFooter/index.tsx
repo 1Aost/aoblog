@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
+import "./index.css";
 
-import "./index.css"
-const MyFooter:React.FC=()=>{
+const MyFooter = () => {
   return (
     <div className='footer'>努力修炼 ©2023 Created by Aoyuru</div>
   )

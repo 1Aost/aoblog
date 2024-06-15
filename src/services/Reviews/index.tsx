@@ -7,18 +7,18 @@ interface SubmitReviewType {
 }
 
 // 获取所有留言
-export async function getReviews() {
+export async function getReviews(): Promise<any> {
   return request.get("/api/reviews");
 }
 // 根据id获取留言
-export async function getReviewsById(params: { id: number }) {
+export async function getReviewsById(params: { id: number }): Promise<any> {
   return request.get("/api/reviews/reviewsbyid", params);
 }
 // 根据id删除留言
-export async function deleteReviews(params: { id: number }) {
+export async function deleteReviews(params: { id: number }): Promise<any> {
   return request.get("/api/reviews/noreview", params);
 }
 // 提交留言
-export async function submitReview(params: SubmitReviewType) {
+export async function submitReview(params: SubmitReviewType): Promise<any> {
   return request.post("/api/reviews/newreview", params);
 }
