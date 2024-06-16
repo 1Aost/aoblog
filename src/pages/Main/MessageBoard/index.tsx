@@ -96,19 +96,12 @@ const MessageBoard = () => {
         } else {
           submitReview({ review_message: reviews.review_message, review_email: reviews.review_email, token: localStorage.getItem("token") })
             .then(res => {
-              if (res.code === '0000') {
-                message.success(res.msg);
-                setTimeout(() => {
-                  message.destroy();
-                  form.resetFields();
-                  fn1();
-                }, 1000)
-              } else {
-                message.error(res.msg);
-                setTimeout(() => {
-                  message.destroy()
-                }, 1000)
-              }
+              message.success(res.msg);
+              setTimeout(() => {
+                message.destroy();
+                form.resetFields();
+                fn1();
+              }, 1000)
             });
         }
       }).catch(_err => {
