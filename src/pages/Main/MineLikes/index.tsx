@@ -11,7 +11,7 @@ import {
 import { changeId } from '../../../store/reducers/articleSlice';
 import "./index.css"
 import { LegalToken } from '../../../services/Users';
-import { selectLikesByUserId } from '../../../services/Likes';
+import { selectLikes } from '../../../services/Likes';
 import { getBlogList } from '../../../services/Articles';
 interface ArticleType {
   article_img: string
@@ -73,13 +73,9 @@ const MineLikes = () => {
   }, [navigate]);
 
   const fetchLikes = () => {
-    selectLikesByUserId({ id: user.id }).then(res => {
-      if (res.code === '0000') {
-        // setLikesList(res.data);
-        fetchArticle(res.data as LikeType[]);
-      } else {
-        message.error(res.msg);
-      }
+    selectLikes({ user_id: user.id }).then(res => {
+      // setLikesList(res.data);
+      fetchArticle(res.data as LikeType[]);
     }).catch(_err => {
       message.error("出错了，请联系管理员");
     });
