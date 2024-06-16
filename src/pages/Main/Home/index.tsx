@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getBlogByType, getBlogList } from '../../../services/Articles';
-import { Empty, message, Pagination } from 'antd';
+import { Empty, Pagination } from 'antd';
 import { BookOutlined, LikeOutlined, MessageOutlined, EyeOutlined } from '@ant-design/icons';
 import { all, changeId } from "../../../store/reducers/articleSlice"
 import MySlider from '../../../components/MySlider';
@@ -53,21 +53,13 @@ const MyContainer = () => {
     const search: string = location.search;
     if (search === "") {
       getBlogList().then(res => {
-        if (res.code === '0000') {
-          setArticlesList(res.data as Array<ArticleType>);
-          dispatch(all(res.data));
-        } else {
-          message.error(res.msg);
-        }
+        setArticlesList(res.data as Array<ArticleType>);
+        dispatch(all(res.data));
       })
     } else {
       const type = Number(search.split("?")[1].split("=")[1]);
       getBlogByType({ type: type }).then(res => {
-        if (res.code === '0000') {
-          setArticlesList(res.data as Array<ArticleType>);
-        } else {
-          message.error(res.msg);
-        }
+        setArticlesList(res.data as Array<ArticleType>);
       })
     }
   }, [location.search]);

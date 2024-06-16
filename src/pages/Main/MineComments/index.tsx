@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { deleteComments, getCommentsById } from '../../../services/Comments';
 import { LegalToken } from '../../../services/Users';
 import { Button, message, Tooltip, Pagination, Space, Tag, Empty } from 'antd';
 import { DeleteOutlined, CloseCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { timestampToTime } from '../../../api/utils';
 import "./index.css";
+import { deleteComments, getComments } from '../../../services/Articles';
 interface CommentsType {
 	article_id: number
 	article_name: string
@@ -40,12 +40,8 @@ const MineComments = () => {
 		return commentsList.slice(startIndex, endIndex);
 	};
 	const fetchComments = () => {
-		getCommentsById({ id: user.id }).then(res => {
-			if (res.code === '0000') {
-				setCommentsList(res.data as Array<CommentsType>);
-			} else {
-				message.error(res.msg);
-			}
+		getComments({ user_id: user.id }).then(res => {
+			setCommentsList(res.data as Array<CommentsType>);
 		}).catch(_err => {
 			message.error("出错了，请联系管理员");
 		});
@@ -77,13 +73,9 @@ const MineComments = () => {
 	const handleDelete = (id: number) => {
 		return () => {
 			deleteComments({ comments_id: id }).then(res => {
-				if (res.code === '0000') {
-					message.success(res.msg);
-					// 删除成功后重新获取数据
-					fetchComments();
-				} else {
-					message.error(res.msg);
-				}
+				message.success(res.msg);
+				// 删除成功后重新获取数据
+				fetchComments();
 			});
 		}
 	};
