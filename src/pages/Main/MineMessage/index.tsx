@@ -57,11 +57,7 @@ const MineMessage = () => {
 
   const fetchReviews = () => {
     getReviewsById({ id: user.id }).then(res => {
-      if (res.code === '0000') {
-        setReviewsList(res.data);
-      } else {
-        message.error(res.msg);
-      }
+      setReviewsList(res.data);
     }).catch(_err => {
       message.error("出错了，请联系管理员");
     });
@@ -71,19 +67,13 @@ const MineMessage = () => {
     user.id && fetchReviews();
   }, [user]);
 
-  // 删除代码
+  // 删除review
   const handleDelete = (id: number) => {
-    return () => {
-      deleteReviews({ id: id }).then(res => {
-        if (res.code === '0000') {
-          message.success(res.msg);
-          // 删除成功后重新获取数据
-          fetchReviews();
-        } else {
-          message.error(res.msg);
-        }
-      })
-    }
+    deleteReviews({ id: id }).then(res => {
+      message.success(res.msg);
+      // 删除成功后重新获取数据
+      fetchReviews();
+    })
   };
 
   return (
@@ -113,7 +103,7 @@ const MineMessage = () => {
                     }
                   </Space>
                   <Tooltip className='delete' title="delete">
-                    <Button onClick={handleDelete(item.id)} danger shape="circle" icon={<DeleteOutlined />} />
+                    <Button onClick={() => handleDelete(item.id)} danger shape="circle" icon={<DeleteOutlined />} />
                   </Tooltip>
                 </li>
               )

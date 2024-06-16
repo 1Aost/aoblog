@@ -12,13 +12,13 @@ export async function getReviews(): Promise<any> {
 }
 // 根据id获取留言
 export async function getReviewsById(params: { id: number }): Promise<any> {
-  return request.get("/api/reviews/reviewsbyid", params);
+  return request.get("/api/reviews/reviewsById", params);
 }
 // 根据id删除留言
-export async function deleteReviews(params: { id: number }): Promise<any> {
-  return request.get("/api/reviews/noreview", params);
+export async function deleteReviews(params: { id: any }): Promise<any> {
+  return request.delete("/api/reviews", params);
 }
 // 提交留言
 export async function submitReview(params: SubmitReviewType): Promise<any> {
-  return request.post("/api/reviews/newreview", params);
+  return request.post("/api/reviews", params);
 }
