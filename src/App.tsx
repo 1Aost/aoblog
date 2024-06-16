@@ -43,10 +43,8 @@ const App: React.FC = () => {
         'Cache-Control': 'no-cache',
       }
     }).then(res => {
-      if (res.code === '0000') {
-        dispatch(all(res.data));
-        setDataReady(true); // 设置数据准备状态为 true
-      }
+      dispatch(all(res.data));
+      setDataReady(true); // 设置数据准备状态为 true
     })
   }, [])
   // 等待数据准备完成再进行渲染

@@ -15,7 +15,7 @@ import 'github-markdown-css';
 import 'markdown-navbar/dist/navbar.css'
 import "./index.css"
 import { deleteLikes, selectLikes, submitLikes } from '../../../services/Likes';
-import { getBlogAndChangePeople, getComments, submitComments } from '../../../services/Articles';
+import { getBlogById, getComments, submitComments } from '../../../services/Articles';
 import { LegalToken } from '../../../services/Users';
 interface CommentType {
   comments_id: number,
@@ -120,7 +120,7 @@ const Content = () => {
   }, [isLiked, location.pathname, user.id]);
 
   useEffect(() => {
-    getBlogAndChangePeople({ id: Number(id) }).then(res => {
+    getBlogById({ id: Number(id) }).then(res => {
       setArticle((res.data as Array<ArticleType>)[0]);
       if (res.data[0].article_url) {
         // url是markdown文件的路径
@@ -168,26 +168,16 @@ const Content = () => {
       token: localStorage.getItem("token"),
       comments: comments
     }).then(res => {
-      if (res.code === '0000') {
-        message.success("提交留言成功,请等待管理员的审核");
-        // 只展示已通过的评论
-        const reviewData: Array<CommentType> = (res.data as Array<CommentType>).filter((item: CommentType) => {
-          return item.comments_status === 1;
-        });
-        setComments(reviewData);
-        setTimeout(() => {
-          message.destroy();
-          form.resetFields();
-        }, 1000)
-      } else if (res.code === '1111') {
-        message.warning(res.msg);
-        navigate("/login");
-      } else {
-        message.error(res.msg);
-        setTimeout(() => {
-          message.destroy()
-        }, 1000);
-      }
+      message.success("提交留言成功,请等待管理员的审核");
+      // 只展示已通过的评论
+      const reviewData: Array<CommentType> = (res.data as Array<CommentType>).filter((item: CommentType) => {
+        return item.comments_status === 1;
+      });
+      setComments(reviewData);
+      setTimeout(() => {
+        message.destroy();
+        form.resetFields();
+      }, 1000)
     }).catch(_err => {
       message.error("出错了，请联系管理员");
     });
@@ -197,7 +187,7 @@ const Content = () => {
     if (!localStorage.getItem("token")) {
       message.warning("尚未登录");
     } else {
-      getComments({ id: article.id }).then(res => {
+      getComments({ article_id: article.id }).then(res => {
         // 只展示已通过的评论
         const reviewData: Array<CommentType> = (res.data as Array<CommentType>).filter((item: CommentType) => {
           return item.comments_status === 1;
