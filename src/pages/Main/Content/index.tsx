@@ -17,11 +17,6 @@ import "./index.css"
 import { deleteLikes, selectLikes, submitLikes } from '../../../services/Likes';
 import { getBlogAndChangePeople, getComments, submitComments } from '../../../services/Articles';
 import { LegalToken } from '../../../services/Users';
-interface MessageType {
-  code: string,
-  msg: string,
-  data: null | Array<CommentType> | Array<LikeType> | Array<ArticleType>,
-};
 interface CommentType {
   comments_id: number,
   article_id: number,
@@ -116,14 +111,10 @@ const Content = () => {
     const article_id = Number(location.pathname.split("/")[2]);
     // 查询判断当前用户是否点赞
     selectLikes({ article_id: article_id, user_id: user.id }).then(res => {
-      if (res.code === '0000') {
-        if ((res.data as Array<LikeType>).length === 0) {
-          setIsLiked(false);
-        } else {
-          setIsLiked(true);
-        }
+      if ((res.data as Array<LikeType>).length === 0) {
+        setIsLiked(false);
       } else {
-        message.error(res.msg);
+        setIsLiked(true);
       }
     });
   }, [isLiked, location.pathname, user.id]);
@@ -162,30 +153,8 @@ const Content = () => {
           // 通过临时变量保存更新后的值
           const updatedIsLiked = !isLiked;
           setIsLiked(updatedIsLiked);
-          if (updatedIsLiked) {
-            // 新增likes
-            submitLikes({ article_id: article_id, user_id: user.id }).then(res => {
-              if (res.code === '0000') {
-                // dispatch(all({...articleList,}))
-                // newArticleList.map((item:any)=>{
-                //     if(item.id===article.id) {
-                //         item.article
-                //     }
-                // })
-              } else {
-                message.error(res.msg);
-              }
-            });
-          } else {
-            // 删除likes
-            deleteLikes({ article_id: article_id, user_id: user.id }).then((res: MessageType) => {
-              if (res.code === '0000') {
-                // 暂时为空
-              } else {
-                message.error(res.msg);
-              }
-            })
-          }
+          const req = updatedIsLiked ? submitLikes : deleteLikes;
+          req({ article_id: article_id, user_id: user.id });
         }
       }).catch(_err => {
         message.error("出错了，请稍后重试");
