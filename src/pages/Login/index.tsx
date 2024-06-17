@@ -21,14 +21,10 @@ const Login = () => {
       setInfo("密码的长度不能小于7位大于17位");
     } else {
       login({ username, password }).then(res => {
-        if (res.code === '0000') {
-          localStorage.setItem("token", res.data);
-          message.success("成功登录，欢迎欢迎");
-          dispatch(change(true));
-          navigate("/home");
-        } else {
-          message.warning(res.msg);
-        }
+        localStorage.setItem("token", res.data);
+        message.success("成功登录，欢迎欢迎");
+        dispatch(change(true));
+        navigate("/home");
       }).catch(_err => {
         message.error("出错了，请联系管理员");
       })

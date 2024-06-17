@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { LegalToken } from '../../../services/Users';
 import { getReviews, submitReview } from '../../../services/Reviews';
 import { Button, Form, Input, Pagination, message } from 'antd';
@@ -57,7 +56,6 @@ const MessageBoard = () => {
   const [form] = Form.useForm();
   const [reviews, setReviews] = useState<Array<ReviewType>>([]);
   const [currentPage, setCurrentPage] = useState<number>(1); // 当前页码
-  const navigate = useNavigate();
   // const {articleList}=useSelector((store:any)=>store.article);
   // 根据当前页码切片获取当前页要展示的数据
   const getCurrentPageData: () => Array<ReviewType> = (): Array<ReviewType> => {
@@ -86,24 +84,16 @@ const MessageBoard = () => {
         message.warning("输入的邮箱号格式不正确");
         return;
       }
-      LegalToken({ token: localStorage.getItem("token") }).then(res => {
-        if (res.code === '1111') {
-          message.warning(res.msg);
-          navigate("/login");
-          // localStorage.removeItem("token");
-        } else if (res.code === '2222') {
-          message.warning(res.msg);
-        } else {
-          submitReview({ review_message: reviews.review_message, review_email: reviews.review_email, token: localStorage.getItem("token") })
-            .then(res => {
-              message.success(res.msg);
-              setTimeout(() => {
-                message.destroy();
-                form.resetFields();
-                fn1();
-              }, 1000)
-            });
-        }
+      LegalToken({ token: localStorage.getItem("token") }).then(() => {
+        submitReview({ review_message: reviews.review_message, review_email: reviews.review_email, token: localStorage.getItem("token") })
+          .then(res => {
+            message.success(res.msg);
+            setTimeout(() => {
+              message.destroy();
+              form.resetFields();
+              fn1();
+            }, 1000)
+          });
       }).catch(_err => {
         message.error("出错了，请稍后重试");
       });

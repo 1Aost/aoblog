@@ -7,7 +7,8 @@ const config = {
   baseURL: baseURL,
   timeout: 30000       //设置最大请求时间
 }
-const _axios = axios.create(config)
+const _axios = axios.create(config);
+
 const openNotification = (msg) => {
   notification.error({
     message: 'Error',
@@ -28,6 +29,9 @@ const request = {
         // 检查响应码并处理数据
         if (res.data.code === 5000 || res.data.code === 401) {
           openNotification(res.data.msg);
+        } else if (res.data.code === 403) {
+          openNotification(res.data.msg);
+          window.location.href = '/home';
         } else {
           resolve(res.data);
         }
@@ -47,6 +51,9 @@ const request = {
         // 检查响应码并处理数据
         if (res.data.code === 5000 || res.data.code === 401) {
           openNotification(res.data.msg);
+        } else if (res.data.code === 403) {
+          openNotification(res.data.msg);
+          window.location.href = '/home';
         } else {
           resolve(res.data);
         }
@@ -66,6 +73,9 @@ const request = {
         // 检查响应码并处理数据
         if (res.data.code === 5000 || res.data.code === 401) {
           openNotification(res.data.msg);
+        } else if (res.data.code === 403) {
+          openNotification(res.data.msg);
+          window.location.href = '/home';
         } else {
           resolve(res.data);
         }
@@ -85,6 +95,9 @@ const request = {
         // 检查响应码并处理数据
         if (res.data.code === 5000 || res.data.code === 401) {
           openNotification(res.data.msg);
+        } else if (res.data.code === 403) {
+          openNotification(res.data.msg);
+          window.location.href = '/home';
         } else {
           resolve(res.data);
         }
@@ -104,6 +117,9 @@ const request = {
         // 检查响应码并处理数据
         if (res.data.code === 5000 || res.data.code === 401) {
           openNotification(res.data.msg);
+        } else if (res.data.code === 403) {
+          openNotification(res.data.msg);
+          window.location.href = '/home';
         } else {
           resolve(res.data);
         }

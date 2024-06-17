@@ -19,15 +19,9 @@ const Register = () => {
 			setInfo("密码的长度不能小于7位大于17位");
 		} else {
 			register({ username, password })
-				.then(res => {
-					if (res.code === '0000') {
-						message.success("注册成功，请登录");
-						navigate("/login");
-					} else if (res.code === '1004') {
-						message.warning(res.msg);
-					} else {
-						message.error("请稍后重试")
-					}
+				.then(() => {
+					message.success("注册成功，请登录");
+					navigate("/login");
 				})
 				.catch(_err => {
 					message.error("出现错误，请稍后重试");
