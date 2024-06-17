@@ -96,13 +96,9 @@ const MineChange = () => {
 
   const onFinish = (values: { username: string, password: string }) => {
     changeUser({ id: user.id, ...values, avatar: imageUrl }).then(res => {
-      if (res.code === '0000') {
-        message.success(res.msg);
-        dispatch(userMess({ id: user.id, ...values, avatar: imageUrl }));
-        navigate("/mine");
-      } else {
-        message.error(res.msg);
-      }
+      message.success(res.msg);
+      dispatch(userMess({ id: user.id, ...values, avatar: imageUrl }));
+      navigate("/mine");
     }).catch(_err => {
       message.error("出错了，请联系管理员");
     });

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';//引入
 import MarkNav from 'markdown-navbar'// markdown文章导航栏
 import remarkGfm from 'remark-gfm';// 划线、表、任务列表和直接url等的语法扩展
@@ -103,7 +103,6 @@ const Content = () => {
   // const {articleList}=useSelector((store:any)=>store.article);
   // const newArticleList=articleList;
   const [isLiked, setIsLiked] = useState<boolean>(false);
-  const navigate = useNavigate();
   const location = useLocation();
   const [article, setArticle] = useState<any>();
 
@@ -141,21 +140,13 @@ const Content = () => {
 
   const handleLike = () => {
     LegalToken({ token: localStorage.getItem("token") })
-      .then(res => {
-        if (res.code === '1111') {
-          message.warning(res.msg);
-          navigate("/login");
-          // localStorage.removeItem("token");
-        } else if (res.code === '2222') {
-          message.warning("尚未登录");
-        } else {
-          const article_id = Number(location.pathname.split("/")[2]);
-          // 通过临时变量保存更新后的值
-          const updatedIsLiked = !isLiked;
-          setIsLiked(updatedIsLiked);
-          const req = updatedIsLiked ? submitLikes : deleteLikes;
-          req({ article_id: article_id, user_id: user.id });
-        }
+      .then(() => {
+        const article_id = Number(location.pathname.split("/")[2]);
+        // 通过临时变量保存更新后的值
+        const updatedIsLiked = !isLiked;
+        setIsLiked(updatedIsLiked);
+        const req = updatedIsLiked ? submitLikes : deleteLikes;
+        req({ article_id: article_id, user_id: user.id });
       }).catch(_err => {
         message.error("出错了，请稍后重试");
       });

@@ -59,10 +59,7 @@ const MyHeader = () => {
 
   const fetchUser = () => {
     getUserByToken({ token: localStorage.getItem("token") }).then(res => {
-      if (res.code === "0000") {
-        // setUser1((res.data as UserMessType[])[0]);
-        dispatch(userMess((res.data)[0]));
-      }
+      dispatch(userMess((res.data)[0]));
     }).catch(_err => {
       message.error("出错了，请联系管理员");
     });
