@@ -37,8 +37,3 @@ export async function submitComments(params: {
 export async function deleteComments(params: { comments_id: number }): Promise<any> {
   return request.delete("/api/articles/comments", params);
 }
-
-// 获取所有的分类
-export async function getAllTypes(): Promise<any> {
-  return request.get("/api/types/all");
-}
