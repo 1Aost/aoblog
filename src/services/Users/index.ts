@@ -29,11 +29,6 @@ export async function changeUser(params: {
   return request.post("/users/oldtonew", params);
 }
 
-// 上传头像
-export async function uploadAvatar(params: FormData): Promise<any> {
-  return request.postImg("/api/Upload/avatar", params)
-}
-
 // 判断token是否失效
 export async function LegalToken(params: { token: string | null }): Promise<any> {
   return request.post("/users/token", params);

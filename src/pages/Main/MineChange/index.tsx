@@ -6,7 +6,8 @@ import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { userMess } from '../../../store/reducers/userSlice';
 import MySlider from '../../../components/MySlider';
 import "./index.css";
-import { changeUser, LegalToken, uploadAvatar } from '../../../services/Users';
+import { changeUser, LegalToken } from '../../../services/Users';
+import { uploadAvatar } from '../../../services/Upload';
 interface UserType {
   user: {
     id: number
