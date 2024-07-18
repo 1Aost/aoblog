@@ -50,9 +50,7 @@ const MyHeader = () => {
     {
       key: '2',
       label: (
-        <a rel="noopener noreferrer" href="###" onClick={() => handleLogout()}>
-          退出登录
-        </a>
+        <span onClick={() => handleLogout()}>退出登录</span>
       ),
     },
   ];
@@ -68,6 +66,10 @@ const MyHeader = () => {
   useEffect(() => {
     fetchUser();
   }, [location.search, localStorage.getItem("token")]);
+
+  // useEffect(() => {
+  //   (!['/login', '/register'].includes(location.pathname)) && fetchUser();
+  // }, [location.pathname, localStorage.getItem("token")]);
 
   // 退出登录
   const handleLogout = () => {
@@ -95,7 +97,7 @@ const MyHeader = () => {
       <div className="mess">
         {
           localStorage.getItem("token") ?
-            <div className="avatar" onClick={() => navigate("/mine")}>
+            <div className="avatar">
               <Dropdown menu={{ items }} placement="bottom">
                 <img src={user.avatar} alt="" />
               </Dropdown>

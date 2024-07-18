@@ -101,7 +101,8 @@ module.exports = {
         'max-lines-per-function': ['warn', { max: 500, IIFEs: true }],
         'max-lines': ['warn', 600],
         'react/no-danger': 'warn',
-        'no-undef': 'error',
+        'no-undef': process.env.NODE_ENV === 'development' ? 'warn' : 'error',
+        'no-console': process.env.NODE_ENV === 'development' ? 'warn' : 'error',
       },
     },
   ]
